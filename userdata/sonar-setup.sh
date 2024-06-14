@@ -1,13 +1,13 @@
 #!/bin/bash
-cp /etc/sysctl.conf /root/sysctl.conf_backup
-cat <<EOT> /etc/sysctl.conf
+sudo cp /etc/sysctl.conf /root/sysctl.conf_backup
+sudo cat <<EOT > /etc/sysctl.conf
 vm.max_map_count=262144
 fs.file-max=65536
 ulimit -n 65536
 ulimit -u 4096
 EOT
-cp /etc/security/limits.conf /root/sec_limit.conf_backup
-cat <<EOT> /etc/security/limits.conf
+sudo cp /etc/security/limits.conf /root/sec_limit.conf_backup
+sudo cat <<EOT > /etc/security/limits.conf
 sonarqube   -   nofile   65536
 sonarqube   -   nproc    409
 EOT
@@ -44,7 +44,7 @@ sudo groupadd sonar
 sudo useradd -c "SonarQube - User" -d /opt/sonarqube/ -g sonar sonar
 sudo chown sonar:sonar /opt/sonarqube/ -R
 cp /opt/sonarqube/conf/sonar.properties /root/sonar.properties_backup
-cat <<EOT> /opt/sonarqube/conf/sonar.properties
+cat <<EOT > /opt/sonarqube/conf/sonar.properties
 sonar.jdbc.username=sonar
 sonar.jdbc.password=admin123
 sonar.jdbc.url=jdbc:postgresql://localhost/sonarqube
@@ -56,7 +56,7 @@ sonar.log.level=INFO
 sonar.path.logs=logs
 EOT
 
-cat <<EOT> /etc/systemd/system/sonarqube.service
+cat <<EOT > /etc/systemd/system/sonarqube.service
 [Unit]
 Description=SonarQube service
 After=syslog.target network.target
@@ -86,7 +86,7 @@ systemctl enable sonarqube.service
 apt-get install nginx -y
 rm -rf /etc/nginx/sites-enabled/default
 rm -rf /etc/nginx/sites-available/default
-cat <<EOT> /etc/nginx/sites-available/sonarqube
+cat <<EOT > /etc/nginx/sites-available/sonarqube
 server{
     listen      80;
     server_name sonarqube.groophy.in;
@@ -111,7 +111,7 @@ server{
 EOT
 ln -s /etc/nginx/sites-available/sonarqube /etc/nginx/sites-enabled/sonarqube
 systemctl enable nginx.service
-#systemctl restart nginx.service
+systemctl restart nginx.service
 sudo ufw allow 80,9000,9001/tcp
 
 echo "System reboot in 30 sec"
