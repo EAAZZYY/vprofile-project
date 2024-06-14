@@ -16,6 +16,7 @@ pipeline {
 		NEXUS_GRP_REPO = 'vprofile-group'
         NEXUS_LOGIN = 'nexus'
         SONARSERVER = '172.31.37.28'
+        SONARSCANNER = 'sonarscanner'
 
     }
 
@@ -47,7 +48,7 @@ pipeline {
 
         stage('Sonar Analysis') {
             environment {
-                scannerHome = tool "${sonarscanner}"
+                scannerHome = tool "${SONARSCANNER}"
             }
             steps {
                withSonarQubeEnv("${SONARSERVER}") {
