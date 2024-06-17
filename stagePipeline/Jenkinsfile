@@ -20,6 +20,8 @@ pipeline {
         registryCredential = 'ecr:eu-north-1:awscredentials'
         registryUrl = 'https://583985421034.dkr.ecr.eu-north-1.amazonaws.com'
         imageRepo = '583985421034.dkr.ecr.eu-north-1.amazonaws.com/vprofile'
+        cluster = 'vprofileStaging'
+        service = 'vprofile-stage-svc'
 
     }
 
@@ -117,6 +119,14 @@ pipeline {
                         dockerImage.push("$BUILD_NUMBER")
                         dockerImage.push("latest")
                     }
+                }
+            }
+        }
+
+        stage("ECS staging"){
+            steps {
+                withAWS(credentials: 'awscredentials', region: 'eu-north-1') {
+                    sh "aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment"
                 }
             }
         }
