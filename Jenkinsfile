@@ -23,6 +23,7 @@ pipeline {
     stages {
         stage('Build'){
             steps {
+                echo 'now in buid stage'
                 sh 'mvn -s settings.xml -DskipTests install'
             }
             post {
@@ -35,6 +36,7 @@ pipeline {
 
         stage('Test'){
             steps {
+                echo 'now in test stage'
                 sh 'mvn -s settings.xml test'
             }
 
@@ -42,6 +44,7 @@ pipeline {
 
         stage('Checkstyle Analysis'){
             steps {
+                echo 'now in checkstyle analysis stage'
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
             }
         }
@@ -51,7 +54,8 @@ pipeline {
                 scannerHome = tool "${SONARSCANNER}"
             }
             steps {
-               withSonarQubeEnv("${SONARSERVER}") {
+                echo 'now in sonar analysis stage'
+                withSonarQubeEnv("${SONARSERVER}") {
                    sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                    -Dsonar.projectName=vprofile \
                    -Dsonar.projectVersion=1.0 \
@@ -60,7 +64,7 @@ pipeline {
                    -Dsonar.junit.reportsPath=target/surefire-reports/ \
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-              }
+                }
             }
         }
 
