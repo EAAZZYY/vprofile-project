@@ -17,6 +17,9 @@ pipeline {
         NEXUS_LOGIN = 'nexus'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
+        registryCredential = 'ecr:eu-north-1:awscredentials'
+        registryUrl = '583985421034.dkr.ecr.eu-north-1.amazonaws.com'
+        imageRepo = '583985421034.dkr.ecr.eu-north-1.amazonaws.com/vprofile'
 
     }
 
@@ -96,6 +99,25 @@ pipeline {
                      type: 'war']
                   ]
                 )
+            }
+        }
+
+        stage("Docker Build Image") {
+            steps {
+                script {
+                    dockerImage = docker.build( imageRepo + ":$BUILD_NUMBER", "./Docker-files/app/multistage/" )
+                }
+            }
+        }
+
+        stage ("Docker Push Image") {
+            steps {
+                script {
+                    docker.withRegistry(registryUrl, registryCredential) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push("latest")
+                    }
+                }
             }
         }
     }
