@@ -18,7 +18,7 @@ pipeline {
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:eu-north-1:awscredentials'
-        registryUrl = '583985421034.dkr.ecr.eu-north-1.amazonaws.com'
+        registryUrl = 'https://583985421034.dkr.ecr.eu-north-1.amazonaws.com'
         imageRepo = '583985421034.dkr.ecr.eu-north-1.amazonaws.com/vprofile'
 
     }
