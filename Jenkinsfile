@@ -12,7 +12,7 @@ pipeline {
         CENTRAL_REPO = "vprofile-maven-central"
         RELEASE_REPO = "vprofile-release"
         NEXUS_GRP_REPO = "vprofile-grouped"
-        NEXUS_IP = "172.31.23.49"
+        NEXUSIP = "172.31.23.49"
         NEXUSPORT = "8081"
     }
 
