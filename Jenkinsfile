@@ -13,7 +13,7 @@ pipeline {
         RELEASE_REPO = "vprofile-release"
         NEXUS_GRP_REPO = "vprofile-grouped"
         NEXUS_IP = "172.31.23.49"
-        NEXUS_PORT = "8081"
+        NEXUSPORT = "8081"
     }
 
     stages {
