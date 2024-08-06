@@ -14,8 +14,6 @@ pipeline {
         NEXUS_GRP_REPO = "vprofile-grouped"
         NEXUSIP = "172.31.23.49"
         NEXUSPORT = '8081'
-        NEXUS_USER = credentials('nexuslogin')
-        NEXUS_PASS = credentials('nexuslogin')
     }
 
     stages {
