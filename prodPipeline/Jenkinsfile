@@ -20,36 +20,38 @@ pipeline {
     }
 
     stages {
-
-        stage('Upload Artifact to Nexus') {
-            stepss {
-                script {
-                    nexusArtifactUploader(
-                        nexusVersion: "nexus3",
-                        protocol: 'http',
-                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                        groupId: "QA",
-                        version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                        repository: "${RELEASE_REPO}",
-                        credentialsId: "${NEXUS_LOGIN}",
-                        artifacts: [
-                            [artifactId: "vprofile", 
-                            classifier: '', 
-                            file: 'target/*.war', 
-                            type: 'war']
-                        ]
-                    )
-                }
-            }
-        }
-
         stage ("Build Artifact") {
             steps {
                 script {
-                    sh 'mvn -s settings.xml -DskipTests install'
+                    echo "building"
+                   // sh 'mvn -s settings.xml -DskipTests install'
                 }
             }
         }
+
+        stage('Upload Artifact to Nexus') {
+            steps {
+                script {
+                    echo "uploading"
+                    // nexusArtifactUploader(
+                    //     nexusVersion: "nexus3",
+                    //     protocol: 'http',
+                    //     nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                    //     groupId: "QA",
+                    //     version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                    //     repository: "${RELEASE_REPO}",
+                    //     credentialsId: "${NEXUS_LOGIN}",
+                    //     artifacts: [
+                    //         [artifactId: "vprofile", 
+                    //         classifier: '', 
+                    //         file: 'target/*.war', 
+                    //         type: 'war']
+                    //     ]
+                    // )
+                }
+            }
+        }
+
         stage('clean Workspace') {
             steps {
                 cleanWs()
