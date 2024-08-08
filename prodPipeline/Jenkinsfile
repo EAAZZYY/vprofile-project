@@ -20,13 +20,6 @@ pipeline {
     }
 
     stages {
-        stage ("Build Artifact") {
-            steps {
-                script {
-                    sh 'mvn -s settings.xml -DskipTests install'
-                }
-            }
-        }
 
         stage('Upload Artifact to Nexus') {
             stepss {
@@ -50,6 +43,13 @@ pipeline {
             }
         }
 
+        stage ("Build Artifact") {
+            steps {
+                script {
+                    sh 'mvn -s settings.xml -DskipTests install'
+                }
+            }
+        }
         stage('clean Workspace') {
             steps {
                 cleanWs()
