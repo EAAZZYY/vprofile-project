@@ -24,6 +24,12 @@ pipeline {
             steps {
                 script {
                     sh 'mvn -s settings.xml -DskipTests install'
+                }
+            }
+        }
+
+        stage('Upload Artifact to Nexus') {
+            steps {
                 script {
                     nexusArtifactUploader(
                         nexusVersion: "nexus3",
@@ -40,12 +46,6 @@ pipeline {
                             type: 'war']
                         ]
                     )
-                }
-            }
-        }
-
-        stage('Upload Artifact to Nexus') {
-            steps {
                 }
             }
         }
